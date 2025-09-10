@@ -29,7 +29,7 @@ interface AppHeaderProps {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export const HEADER_COLOR = 'bg-[#2A5298]';
+export const HEADER_COLOR = 'bg-[#050C9C]';
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
