@@ -11,6 +11,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\EnsureUserIsActivated;
 use App\Http\Middleware\RedirectIfActivated;
 
+use App\Http\Controllers\SystemController;
+
 // Route::get('/run-migrate', function () {
 //     Artisan::call('migrate', [
 //         '--force' => true, // Run without confirmation
@@ -76,6 +78,9 @@ Route::middleware(['auth', 'verified', EnsureUserIsActivated::class, 'module.acc
 
     Route::delete('modules/delete-module/{id}', [ModulesController::class, 'delete'])
         ->name('modules.delete-module');
+
+    Route::get('systems', [SystemController::class, 'index'])
+        ->name('systems');
 });
 // ! End of Role Management routes
 

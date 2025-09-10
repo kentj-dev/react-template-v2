@@ -16,9 +16,9 @@ export default function AppHeaderLayout({
             <AppContent>{children}</AppContent>
             <footer className="flex flex-col items-center justify-center gap-2 px-5 py-10 text-center text-xs text-gray-500 md:text-sm">
                 <div>
-                    <span className="font-semibold">Student Affairs Servicing</span>
+                    <span className="font-semibold">Credentials Vault System</span>
                     <span className="mx-1">&bull;</span>
-                    Empowering student services and compliance management
+                    Credentials management system for securely storing and managing sensitive information.
                 </div>
                 {/* <div className="flex flex-wrap items-center justify-center gap-1">
                     <span>Built with</span>
