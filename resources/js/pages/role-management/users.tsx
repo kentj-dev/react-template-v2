@@ -62,7 +62,7 @@ export default function Users({ users, tableData, allUsersCount }: UsersProps) {
     const getInitials = useInitials();
 
     const [openAddModal, setOpenAddModal] = useState(false);
-    const [idToDelete, setIdToDelete] = useState<number | null>(null);
+    const [idToDelete, setIdToDelete] = useState<string | null>(null);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const {
@@ -119,7 +119,7 @@ export default function Users({ users, tableData, allUsersCount }: UsersProps) {
         });
     };
 
-    const deleteUser = (userId: number) => {
+    const deleteUser = (userId: string) => {
         const promise = new Promise<void>((resolve, reject) => {
             deleteInertia(route('users.delete-user', userId), {
                 preserveScroll: true,
@@ -165,7 +165,7 @@ export default function Users({ users, tableData, allUsersCount }: UsersProps) {
                 <Heading title="Users" description="Manage the users of this system" />
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
-                        {canCreate('Users') && (
+                        {canCreate('/users') && (
                             <div className="flex w-full items-center justify-between gap-3 sm:w-max">
                                 <Dialog open={openAddModal} onOpenChange={setOpenAddModal}>
                                     <DialogTrigger asChild>
@@ -310,14 +310,14 @@ export default function Users({ users, tableData, allUsersCount }: UsersProps) {
                                 label: 'View User',
                                 className: 'bg-[#3b5998] hover:bg-[#3b5998]/90',
                                 icon: <ExternalLink size={14} />,
-                                showIf: (user) => canUpdate('Users'),
+                                showIf: (user) => canUpdate('/users'),
                                 onClick: (user) => router.visit(route('users.view-user', user.id)),
                             },
                             {
                                 label: '',
                                 className: 'bg-[#983b3b] hover:bg-[#983b3b]/90',
                                 icon: <Trash2 size={14} />,
-                                showIf: (user) => canDelete('Users') && auth.user.id !== user.id,
+                                showIf: (user) => canDelete('/users') && auth.user.id !== user.id,
                                 onClick: (user) => {
                                     setIdToDelete(user.id);
                                     setOpenDeleteModal(true);

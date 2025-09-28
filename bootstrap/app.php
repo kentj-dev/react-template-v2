@@ -26,8 +26,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'module.access' => App\Http\Middleware\CheckModuleAccess::class,
             'client.flag' => \App\Http\Middleware\SetClientFlag::class,
+            'activated' => \App\Http\Middleware\EnsureUserIsActivated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // pass
     })->create();

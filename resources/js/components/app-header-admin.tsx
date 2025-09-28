@@ -10,13 +10,13 @@ import AppLogo from './app-logo';
 import { NavMainVer2 } from './nav-main-2';
 import { NavMainVer2Mobile } from './nav-main-2-mobile';
 import { UserMenuContent } from './user-menu-content';
-import { HEADER_COLOR } from './app-header';
 
 interface AppHeaderProps {
     breadcrumbs?: BreadcrumbItem[];
+    disabled: boolean;
 }
 
-export function AppHeaderAdmin({ breadcrumbs = [] }: AppHeaderProps) {
+export function AppHeaderAdmin({ breadcrumbs = [], disabled = false }: AppHeaderProps) {
     const page = usePage<SharedData>();
 
     const { auth, isClientRoute, navigations } = page.props;
@@ -27,11 +27,11 @@ export function AppHeaderAdmin({ breadcrumbs = [] }: AppHeaderProps) {
 
     return (
         <>
-            <div className={`border-sidebar-border/80 ${HEADER_COLOR}`}>
+            <div className="border-sidebar-border/80 bg-[#2a5298]">
                 <div className="mx-auto flex flex-col gap-2 md:max-w-7xl">
                     <div className="flex items-center justify-between p-4 px-4">
                         <div className="flex w-full items-center justify-between">
-                            <Link href="/" prefetch className="flex items-center space-x-3">
+                            <Link disabled={disabled} href="/c/dashboard" prefetch className="flex items-center space-x-3">
                                 <AppLogo companyClassName="text-white text-[15px]" appnameClassName="text-gray-200 text-[12px]" />
                             </Link>
                             <div className="hidden items-center space-x-4 md:flex">
@@ -39,11 +39,13 @@ export function AppHeaderAdmin({ breadcrumbs = [] }: AppHeaderProps) {
                                     {auth.user ? (
                                         <>
                                             <div className="mr-3 flex flex-col text-end">
-                                                <span className="text-sm font-semibold text-gray-200">{auth.user.name}</span>
+                                                <span className="text-sm font-semibold text-gray-200">
+                                                    {auth.user.name}
+                                                </span>
                                                 <span className="text-xs text-gray-200">{auth.user.email}</span>
                                             </div>
                                             <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
+                                                <DropdownMenuTrigger asChild disabled={disabled}>
                                                     <Image
                                                         layout="constrained"
                                                         width={40}
@@ -63,6 +65,7 @@ export function AppHeaderAdmin({ breadcrumbs = [] }: AppHeaderProps) {
                                             <Link
                                                 href={route('login')}
                                                 className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#EDEDEC] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                                                disabled={disabled}
                                             >
                                                 Log in
                                             </Link>
@@ -81,13 +84,13 @@ export function AppHeaderAdmin({ breadcrumbs = [] }: AppHeaderProps) {
                 </div>
             </div>
             {/* Mobile Menu */}
-            {isMobile && <NavMainVer2Mobile auth={auth} navigations={navigations} isClientRoute={isClientRoute} />}
+            {isMobile && <NavMainVer2Mobile auth={auth} navigations={navigations} isClientRoute={isClientRoute} disabled={disabled} />}
 
             {!isMobile && (
                 <div className="border-sidebar-border/80 sticky top-0 z-50 border-b pb-2 md:pb-0">
                     <div className="dark:bg-background mx-auto w-full bg-white md:max-w-7xl">
                         <div className="ml-2 hidden items-center space-x-6 md:flex md:justify-between">
-                            <NavMainVer2 navigations={navigations} />
+                            <NavMainVer2 navigations={navigations} disabled={disabled} />
 
                             <div className="flex items-center gap-2 pr-4">
                                 <AnimatePresence>

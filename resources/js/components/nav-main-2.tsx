@@ -16,9 +16,10 @@ import { motion } from 'framer-motion';
 
 interface NavMainVer2Props {
     navigations: Record<string, NavigationModule[]>;
+    disabled?: boolean;
 }
 
-export function NavMainVer2({ navigations }: NavMainVer2Props) {
+export function NavMainVer2({ navigations, disabled = false }: NavMainVer2Props) {
     const page = usePage();
 
     const { canView } = usePermissions();
@@ -28,10 +29,10 @@ export function NavMainVer2({ navigations }: NavMainVer2Props) {
     };
 
     return (
-        <NavigationMenu className="flex h-full w-full items-stretch" viewport={false}>
+        <NavigationMenu className="relative flex h-full w-full items-stretch" viewport={false}>
             <NavigationMenuList className="relative flex h-full items-stretch space-x-2">
                 {Object.entries(navigations).map(([groupTitle, modules]) => {
-                    const accessibleItems = modules.filter((mod: NavigationModule) => isModuleAccessible(mod.name));
+                    const accessibleItems = modules.filter((mod: NavigationModule) => isModuleAccessible(mod.path ?? mod.name));
                     if (accessibleItems.length === 0) return null;
 
                     const firstModule = accessibleItems[0];
@@ -48,6 +49,7 @@ export function NavMainVer2({ navigations }: NavMainVer2Props) {
                                         'flex h-9 items-center gap-2 px-3 dark:hover:bg-[#151515]',
                                         isActiveGroup && 'font-semibold text-[#3b5998] dark:bg-[#151515] dark:text-[#6393fa]',
                                     )}
+                                    disabled={disabled}
                                 >
                                     {FirstIcon && <FirstIcon size={16} className="h-4 w-4" />}
                                     <span>{firstModule.name}</span>
@@ -71,12 +73,13 @@ export function NavMainVer2({ navigations }: NavMainVer2Props) {
                                     'relative flex h-9 cursor-pointer items-center gap-2 px-3 dark:hover:bg-[#151515]',
                                     isActiveGroup && 'text-[#3b5998] dark:bg-[#151515] dark:text-[#6393fa]',
                                 )}
+                                disabled={disabled}
                             >
                                 {FirstIcon && <FirstIcon size={16} className="h-4 w-4" />}
                                 <span>{groupTitle}</span>
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <ul className="grid min-w-[180px] gap-1">
+                                <ul className="grid min-w-[180px] gap-1 text-nowrap">
                                     {accessibleItems.map((module) => {
                                         const Icon = getLucideIcon(module.icon);
                                         const isActive = isRouteActive(page.url, module.path);

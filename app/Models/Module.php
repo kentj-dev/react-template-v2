@@ -33,6 +33,7 @@ class Module extends Model
 
     protected $casts = [
         'available_actions' => 'array',
+        'is_client' => 'boolean',
     ];
 
     public function roles()

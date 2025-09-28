@@ -17,7 +17,7 @@ use App\Helpers\TableQuery;
 
 class ModulesController extends Controller
 {
-    #[RoleAccess('Modules', 'can_view')]
+    #[RoleAccess('/modules', 'can_view')]
     public function create(Request $request): InertiaResponse|RedirectResponse
     {
         $result = TableQuery::build($request, Module::with(['roles.users', 'parent']), [
@@ -57,7 +57,7 @@ class ModulesController extends Controller
         ]);
     }
 
-    #[RoleAccess('Modules', 'can_update')]
+    #[RoleAccess('/modules', 'can_update')]
     public function viewManageModule(Request $request): InertiaResponse
     {
         $moduleId = $request->route('id');
@@ -80,7 +80,7 @@ class ModulesController extends Controller
         return Inertia::render('role-management/manage-module', $context);
     }
 
-    #[RoleAccess('Modules', 'can_update')]
+    #[RoleAccess('/modules', 'can_update')]
     public function updateModulePermissions(Request $request): RedirectResponse
     {
         $moduleId = $request->moduleId;
@@ -193,7 +193,7 @@ class ModulesController extends Controller
         return redirect()->back()->with('success', 'Module updated successfully.');
     }
 
-    #[RoleAccess('Modules', 'can_create')]
+    #[RoleAccess('/modules', 'can_create')]
     public function createModule(Request $request): RedirectResponse
     {
         $request->validate([
@@ -253,7 +253,7 @@ class ModulesController extends Controller
             ->with('success', 'User created successfully.');
     }
 
-    #[RoleAccess('Modules', 'can_delete')]
+    #[RoleAccess('/modules', 'can_delete')]
     public function delete(Request $request): RedirectResponse
     {
         $moduleId = $request->route('id');

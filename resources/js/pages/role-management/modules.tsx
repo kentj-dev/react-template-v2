@@ -164,7 +164,7 @@ export default function Modules({ modules, tableData, allModulesCount }: Modules
             <div className="px-4 py-6">
                 <Heading title="Modules" description="Manage the modules of the system." />
                 <div className="flex flex-col gap-2">
-                    {canCreate('Modules') && (
+                    {canCreate('/modules') && (
                         <Dialog open={openAddModal} onOpenChange={setOpenAddModal}>
                             <DialogTrigger asChild>
                                 <Button className="w-max">
@@ -318,9 +318,7 @@ export default function Modules({ modules, tableData, allModulesCount }: Modules
                             { key: 'icon', label: 'Icon' },
                             { key: 'name', label: 'Name' },
                             { key: 'description', label: 'Description' },
-                            { key: 'parent_name', label: 'Parent', sortable: false },
                             { key: 'path', label: 'Path' },
-                            { key: 'is_client', label: 'Path Type' },
                             { key: 'group_title', label: 'Group Title' },
                             { key: 'created_at', label: 'Date Created' },
                         ]}
@@ -360,10 +358,6 @@ export default function Modules({ modules, tableData, allModulesCount }: Modules
                                     module.path ? <Badge variant={'outline'}>{module.path}</Badge> : <span className="text-gray-500">No path</span>,
                             },
                             {
-                                key: 'is_client',
-                                render: (module) => (module.is_client ? <span>Client</span> : <span>Admin</span>),
-                            },
-                            {
                                 key: 'parent_name',
                                 render: (module) =>
                                     module.parent_name ? (
@@ -387,14 +381,14 @@ export default function Modules({ modules, tableData, allModulesCount }: Modules
                                 label: 'Manage Module',
                                 className: 'bg-[#6366f1] hover:bg-[#6366f1]/90',
                                 icon: <SquareDashedMousePointer size={14} />,
-                                showIf: (module) => canUpdate('Modules'),
+                                showIf: (module) => canUpdate('/modules'),
                                 onClick: (module) => router.visit(route('modules.view', module.id), { preserveScroll: true }),
                             },
                             {
                                 label: '',
                                 className: 'bg-[#983b3b] hover:bg-[#983b3b]/90',
                                 icon: <Trash2 size={14} />,
-                                showIf: (module) => canDelete('Modules'),
+                                showIf: (module) => canDelete('/modules'),
                                 onClick: (module) => {
                                     setIdToDelete(module.id);
                                     setOpenDeleteModal(true);

@@ -10,17 +10,17 @@ export function usePermissions() {
 
     const isSuperAdmin = auth.is_super_admin;
 
-    const hasPermission = (module: string, action: string): boolean => {
+    const hasPermission = (path: string, action: string): boolean => {
         if (isSuperAdmin) return true;
-        return Array.isArray(permissions[module]) && permissions[module].includes(action);
+        return Array.isArray(permissions[path]) && permissions[path].includes(action);
     };
 
-    const canView = (module: string) => hasPermission(module, 'can_view');
-    const canCreate = (module: string) => hasPermission(module, 'can_create');
-    const canUpdate = (module: string) => hasPermission(module, 'can_update');
-    const canDelete = (module: string) => hasPermission(module, 'can_delete');
-    const canExport = (module: string) => hasPermission(module, 'can_export');
-    const canPrint = (module: string) => hasPermission(module, 'can_print');
+    const canView = (path: string) => hasPermission(path, 'can_view');
+    const canCreate = (path: string) => hasPermission(path, 'can_create');
+    const canUpdate = (path: string) => hasPermission(path, 'can_update');
+    const canDelete = (path: string) => hasPermission(path, 'can_delete');
+    const canExport = (path: string) => hasPermission(path, 'can_export');
+    const canPrint = (path: string) => hasPermission(path, 'can_print');
 
     return {
         hasPermission,

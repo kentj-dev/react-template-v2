@@ -1,32 +1,33 @@
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { usePermissions } from '@/hooks/use-permissions';
 import { getLucideIcon } from '@/lib/get-lucide-icon';
 import { Auth, NavigationModule } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from './ui/button';
+import { Link } from '@inertiajs/react';
 import { ChevronsUpDown, Menu } from 'lucide-react';
 import AppLogo from './app-logo';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from './ui/button';
 import { UserInfo } from './user-info';
-import { ClientUserMenuContent } from './user-menu-content-client';
+import { UserMenuContent } from './user-menu-content';
 
 interface NavMainVer2Props {
     auth: Auth;
     navigations: Record<string, NavigationModule[]>;
     isClientRoute: boolean;
+    disabled?: boolean;
 }
 
-export function NavMainVer2Mobile({ auth, navigations, isClientRoute }: NavMainVer2Props) {
+export function NavMainVer2Mobile({ auth, navigations, isClientRoute, disabled = false }: NavMainVer2Props) {
     const { canView } = usePermissions();
 
-    const isModuleAccessible = (moduleName: string): boolean => {
-        return canView(moduleName);
+    const isModuleAccessible = (modulePath: string): boolean => {
+        return canView(modulePath);
     };
 
     return (
         <div className="md:hidden">
             <Sheet>
-                <SheetTrigger asChild>
+                <SheetTrigger asChild disabled={disabled}>
                     <Button variant="ghost" size="icon" className="mr-2">
                         <Menu className="h-5 w-5" />
                     </Button>
@@ -43,21 +44,21 @@ export function NavMainVer2Mobile({ auth, navigations, isClientRoute }: NavMainV
                         <div className="flex h-full flex-col justify-between text-sm">
                             <div className="flex flex-col space-y-4">
                                 {Object.entries(navigations).map(([groupTitle, modules]) => {
-                                    const accessibleItems = modules.filter((mod: NavigationModule) => isModuleAccessible(mod.name));
+                                    const accessibleItems = modules.filter((mod: NavigationModule) => isModuleAccessible(mod.path ?? mod.name));
                                     if (accessibleItems.length === 0) return null;
                                     return (
                                         <div key={groupTitle}>
-                                            <div className="mb-1 px-1 pt-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                                            <div className="mb-1 px-1 pt-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
                                                 {groupTitle}
                                             </div>
                                             <div className="flex flex-col space-y-1">
-                                                {accessibleItems.map(module => {
+                                                {accessibleItems.map((module) => {
                                                     const Icon = getLucideIcon(module.icon);
                                                     return (
                                                         <Link
                                                             key={module.id}
                                                             href={module.path ?? '#'}
-                                                            className="flex items-center gap-2 rounded px-3 py-2 text-gray-800 font-medium hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+                                                            className="flex items-center gap-2 rounded px-3 py-2 font-medium text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
                                                         >
                                                             {Icon && <Icon size={18} className="h-4 w-4" />}
                                                             <span>{module.name}</span>
@@ -69,7 +70,7 @@ export function NavMainVer2Mobile({ auth, navigations, isClientRoute }: NavMainV
                                     );
                                 })}
                             </div>
-                            <div className="relative flex w-full items-center justify-between space-x-2 mt-6">
+                            <div className="relative mt-6 flex w-full items-center justify-between space-x-2">
                                 {auth.user && (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
@@ -83,7 +84,7 @@ export function NavMainVer2Mobile({ auth, navigations, isClientRoute }: NavMainV
                                             align="end"
                                             side="bottom"
                                         >
-                                            <ClientUserMenuContent auth={auth} isClientRoute={isClientRoute} />
+                                            <UserMenuContent user={auth.user} />
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 )}
@@ -93,5 +94,5 @@ export function NavMainVer2Mobile({ auth, navigations, isClientRoute }: NavMainV
                 </SheetContent>
             </Sheet>
         </div>
-    )
+    );
 }

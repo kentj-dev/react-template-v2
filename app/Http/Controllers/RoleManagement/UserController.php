@@ -23,7 +23,7 @@ use App\Helpers\TableQuery;
 
 class UserController extends Controller
 {
-    #[RoleAccess('Users', 'can_view')]
+    #[RoleAccess('/users', 'can_view')]
     public function create(Request $request): InertiaResponse|RedirectResponse
     {
         $result = TableQuery::build($request, User::query(), [
@@ -74,8 +74,7 @@ class UserController extends Controller
         ]);
     }
 
-
-    #[RoleAccess('Users', 'can_create')]
+    #[RoleAccess('/users', 'can_create')]
     public function createUser(Request $request): RedirectResponse
     {
         $request->validate([
@@ -104,7 +103,7 @@ class UserController extends Controller
             ->with('success', 'User created successfully.');
     }
 
-    #[RoleAccess('Users', 'can_update')]
+    #[RoleAccess('/users', 'can_update')]
     public function viewUser(Request $request): Response|RedirectResponse
     {
         $id = $request->route('id');
@@ -120,7 +119,7 @@ class UserController extends Controller
         return Inertia::render('role-management/view-user', $context);
     }
 
-    #[RoleAccess('Users', 'can_delete')]
+    #[RoleAccess('/users', 'can_delete')]
     public function deleteUser(Request $request): RedirectResponse
     {
         $id = $request->route('id');
@@ -137,7 +136,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
 
-    #[RoleAccess('Users', 'can_update')]
+    #[RoleAccess('/users', 'can_update')]
     public function updateUser(Request $request): RedirectResponse
     {
         $id = $request->route('id');

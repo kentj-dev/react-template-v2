@@ -176,7 +176,7 @@ export default function Roles({ roles, tableData, allRolesCount }: RoleProps) {
             <div className="px-4 py-6">
                 <Heading title="Roles" description="Manage the roles and permissions for your users" />
                 <div className="flex flex-col gap-2">
-                    {canCreate('Roles') && (
+                    {canCreate('/roles') && (
                         <Dialog open={openAddModal} onOpenChange={setOpenAddModal}>
                             <DialogTrigger asChild>
                                 <Button className="w-max">
@@ -273,7 +273,7 @@ export default function Roles({ roles, tableData, allRolesCount }: RoleProps) {
                                 label: 'Manage Role',
                                 className: 'bg-[#6366f1] hover:bg-[#6366f1]/90',
                                 icon: <ScanFace size={14} />,
-                                showIf: (role) => canUpdate('Roles'),
+                                showIf: (role) => canUpdate('/roles'),
                                 onClick: (role) => router.visit(route('roles.view', role.id), { preserveScroll: true }),
                             },
                             {
@@ -287,7 +287,7 @@ export default function Roles({ roles, tableData, allRolesCount }: RoleProps) {
                                 label: '',
                                 className: 'bg-[#983b3b] hover:bg-[#983b3b]/90',
                                 icon: <Trash2 size={14} />,
-                                showIf: (role) => canDelete('Roles'),
+                                showIf: (role) => canDelete('/roles'),
                                 onClick: (role) => {
                                     setIdToDelete(role.id);
                                     setOpenDeleteModal(true);

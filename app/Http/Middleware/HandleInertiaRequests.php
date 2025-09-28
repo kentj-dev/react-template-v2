@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
         $permissions = $user?->modulePermissions()
             ->with('module')
             ->get()
-            ->groupBy(fn ($perm) => $perm->module->name)
+            ->groupBy(fn ($perm) => $perm->module->path)
             ->map(fn ($items) => $items->pluck('name')->values())
             ->toArray() ?? [];
 

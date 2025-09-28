@@ -15,12 +15,17 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ModulePermission;
 use App\Helpers\TableQuery;
+use App\Helpers\RoleHelper;
 
 class RolesController extends Controller
 {
-    #[RoleAccess('Roles', 'can_view')]
+    #[RoleAccess('/roles', 'can_view')]
     public function create(Request $request): InertiaResponse|RedirectResponse
     {
+        // if (RoleHelper::check('/roles', 'can_view')) {
+
+        // }
+
         $result = TableQuery::build($request, Role::with('users'), [
             'sortFields' => ['id', 'name', 'description', 'created_at'],
             'defaultSortBy' => 'name',
@@ -52,7 +57,7 @@ class RolesController extends Controller
         ]);
     }
 
-    #[RoleAccess('Roles', 'can_delete')]
+    #[RoleAccess('/roles', 'can_delete')]
     public function delete(Request $request): RedirectResponse
     {
         $roleId = $request->route('id');
@@ -63,7 +68,7 @@ class RolesController extends Controller
         return redirect()->back();
     }
 
-    #[RoleAccess('Roles', 'can_update')]
+    #[RoleAccess('/roles', 'can_update')]
     public function revokeUserRole(Request $request): RedirectResponse
     {
         $userId = $request->route('id');
@@ -81,7 +86,7 @@ class RolesController extends Controller
         return redirect()->back()->with('success', 'Role revoked successfully.');
     }
 
-    #[RoleAccess('Roles', 'can_update')]
+    #[RoleAccess('/roles', 'can_update')]
     public function revertUserRole(Request $request): RedirectResponse
     {
         $userId = $request->route('id');
@@ -99,7 +104,7 @@ class RolesController extends Controller
         return redirect()->back()->with('success', 'Role restored successfully.');
     }
 
-    #[RoleAccess('Roles', 'can_update')]
+    #[RoleAccess('/roles', 'can_update')]
     public function viewRolePermissions(Request $request): InertiaResponse
     {
         $roleId = $request->route('id');
@@ -129,7 +134,7 @@ class RolesController extends Controller
         ]);
     }
 
-    #[RoleAccess('Roles', 'can_update')]
+    #[RoleAccess('/roles', 'can_update')]
     public function manageRoleModulePermissions(Request $request): RedirectResponse
     {
         $roleId = $request->roleId;
@@ -207,7 +212,7 @@ class RolesController extends Controller
         return redirect()->back()->with('success', 'Role permissions updated successfully.');
     }
 
-    #[RoleAccess('Roles', 'can_create')]
+    #[RoleAccess('/roles', 'can_create')]
     public function createRole(Request $request): RedirectResponse
     {
         $request->validate([

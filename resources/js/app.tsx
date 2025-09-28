@@ -14,6 +14,8 @@ createInertiaApp({
         const root = createRoot(el);
         
         root.render(<App {...props} />);
+
+        delete el.dataset.page;
     },
     progress: {
         color: 'red',

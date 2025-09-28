@@ -37,6 +37,7 @@ class CreateSuperUser extends Command
             'email' => $email,
             'password' => Hash::make($password),
             'superstaff' => 1,
+            'activated_at' => now(),
         ]);
 
         $this->info("Superuser {$user->email} created successfully.");

@@ -21,7 +21,7 @@ class AuthServiceprovider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('access-module', function ($user, $moduleName) {
+        Gate::define('access-module', function ($user, $modulePath) {
             if ($user->superstaff) {
                 return true;
             }
@@ -31,7 +31,7 @@ class AuthServiceprovider extends ServiceProvider
                 ->join('roles', 'module_permissions.role_id', '=', 'roles.id')
                 ->join('role_user', 'role_user.role_id', '=', 'roles.id')
                 ->where('module_permissions.name', 'can_view')
-                ->where('modules.name', $moduleName)
+                ->where('modules.path', $modulePath)
                 ->where('role_user.user_id', $user->id)
                 ->whereNull('module_permissions.deleted_at')
                 ->whereNull('modules.deleted_at')
